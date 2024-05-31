@@ -1,0 +1,221 @@
+:root {
+    --grid: 0.25rem; /*4px*/
+    --shade-size: clamp(24px, 7vw, 64px);
+    --sans-serif: "Rethink Sans", Inter, Roboto, "Helvetica Neue", "Arial Nova",
+        "Nimbus Sans", Arial, sans-serif;
+    --serif: "Crimson Pro", "Iowan Old Style", "Palatino Linotype",
+        "URW Palladio L", P052, serif;
+    --mono: "Azeret Mono", "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+        "DejaVu Sans Mono", monospace;
+    --font-size: 1rem;
+    --line-height: 1.25;
+    --error: #f66;
+    --bg: #fff;
+    --fg: #222;
+    --muted: #888;
+    --focus: #09f;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+a {
+    color: var(--fg);
+}
+
+a {
+    text-decoration: underline;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+button {
+    touch-action: manipulation;
+}
+
+code {
+    font-family: var(--mono);
+}
+
+body {
+    padding: calc(var(--grid) * 5);
+    background: var(--bg);
+    font-family: var(--sans-serif);
+    font-size: var(--font-size);
+    font-optical-sizing: auto;
+    line-height: round(var(--font-size) * var(--line-height), var(--grid));
+    text-wrap: balance;
+}
+
+header,
+main {
+    place-content: center;
+}
+
+header {
+    text-align: center;
+    padding-top: env(safe-area-inset-top);
+
+    &:before {
+        content: "";
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: env(safe-area-inset-top);
+        backdrop-filter: blur(10px);
+    }
+
+    h1 {
+        --font-size: clamp(2.5rem, 5vw, 4rem);
+        --line-height: 1;
+        font-family: var(--serif);
+        font-weight: normal;
+        font-size: var(--font-size);
+        line-height: round(var(--font-size) * var(--line-height), var(--grid));
+
+        sup {
+            display: inline-block;
+            font-size: 50%;
+            animation: spin 10s linear infinite;
+        }
+    }
+
+    p {
+        margin-top: calc(var(--grid) * 2);
+        color: var(--muted);
+    }
+}
+
+main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: calc(var(--grid) * 8) 0;
+
+    h2 {
+        --font-size: clamp(1rem, 2vw, 1.25rem);
+        margin-bottom: calc(var(--grid) * 2);
+        font-size: var(--font-size);
+        line-height: round(var(--font-size) * var(--line-height), var(--grid));
+        font-weight: normal;
+    }
+}
+
+.input-section {
+    .input-wrap {
+        position: relative;
+    }
+
+    .current-color {
+        position: absolute;
+        left: calc(var(--grid) * 2);
+        bottom: calc(var(--grid) * 2);
+        width: calc(var(--grid) * 8);
+        height: calc(var(--grid) * 8);
+        border: 2px solid var(--muted);
+    }
+
+    .input {
+        display: block;
+        width: 100%;
+        height: calc(var(--grid) * 12);
+        margin-top: calc(var(--grid) * 2);
+        padding: var(--grid) calc(var(--grid) * 12);
+        border: 2px solid var(--muted);
+        outline: none;
+        font-family: var(--mono);
+        font-size: 1.5rem;
+        &:focus {
+            border-color: var(--focus);
+        }
+
+        &.error {
+            color: var(--error);
+            border-color: var(--error);
+        }
+    }
+
+    button {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: calc(var(--grid) * 12);
+        height: calc(var(--grid) * 12);
+        border: none;
+        background: transparent;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .hue-picker {
+        margin-top: calc(var(--grid) * 2);
+    }
+}
+
+.shade-group {
+    margin: calc(var(--grid) * 10) 0;
+}
+
+.shades {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--grid);
+    margin-bottom: var(--grid);
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    > div {
+        container-type: size;
+        width: round(var(--shade-size), var(--grid));
+        height: round(var(--shade-size), var(--grid));
+        display: grid;
+        place-items: center;
+
+        &.fg-light {
+            color: var(--bg);
+        }
+
+        &.fg-dark {
+            color: var(--fg);
+        }
+    }
+}
+
+.export {
+    width: 100%;
+    textarea {
+        width: 100%;
+        height: calc(var(--grid) * 50);
+        font-family: var(--mono);
+        font-size: 1rem;
+        resize: vertical;
+    }
+}
+
+footer {
+    padding-bottom: env(safe-area-inset-bottom);
+    text-align: center;
+    font-family: var(--serif);
+
+    .notes {
+        font-style: italic;
+    }
+}
