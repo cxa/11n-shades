@@ -49,8 +49,10 @@ export const shade_levels = () => {
 const mk_shades = (okhsl_color) =>
   shade_samples.map((l) => formatHex({ ...okhsl_color, l }));
 
-export const mk_shade_groups = (okhsl_color) =>
-  pallet_hue_deltas.map(([title, hues]) => [
+export const mk_shade_groups = (okhsl_color) => [
+  ...pallet_hue_deltas.map(([title, hues]) => [
     title,
     hues.map((h) => mk_shades(adjust_hue(okhsl_color, h))),
-  ]);
+  ]),
+  ["Grey", [mk_shades({ ...okhsl_color, s: 0 })]],
+];
