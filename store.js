@@ -36,10 +36,13 @@ export const color_store = reactive({
     const json = {};
     const levels = shade_levels();
     for (const [title, shade_groups] of color_store.shades()) {
-      json[title] = shade_groups.map((group) =>
+      let key = title.split(/\s/).join(".").toLowerCase();
+      json[key] = shade_groups.map((group) =>
         Object.fromEntries(group.map((shade, i) => [levels[i], shade])),
       );
-      if (json[title].length == 1) json[title] = json[title][0];
+      if (json[key].length == 1) json[key] = json[key][0];
+      else
+        json[key] = Object.fromEntries(json[key].map((v, i) => ["abc"[i], v]));
     }
 
     return JSON.stringify(json, null, 2);
